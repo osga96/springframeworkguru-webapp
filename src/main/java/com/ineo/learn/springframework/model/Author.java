@@ -1,6 +1,7 @@
 package com.ineo.learn.springframework.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,6 +19,12 @@ public class Author {
     private Set<Book> books;
 
     public Author() {
+    }
+
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = new HashSet<>();
     }
 
     public Author(String firstName, String lastName, Set<Book> books) {
