@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Test Spring</title>
+    </head>
+
+    <body>
+
+        <table>
+
+            <tr>
+                <th>Id</th>
+                <td>First Name</td>
+                <td>Last Name</td>
+            </tr>
+
+            <tr th:each="author: ${authors}">
+                <th th:text="${author.id}"></th>
+                <td th:text="${author.firstName}">Author name</td>
+                <td th:text="${author.lastName}">Author last name</td>
+            </tr>
+
+        </table>
+
+    </body>
+
+</html>

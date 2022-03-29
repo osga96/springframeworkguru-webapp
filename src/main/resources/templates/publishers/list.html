@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Test Spring</title>
+    </head>
+
+    <body>
+
+        <table>
+
+            <tr>
+                <th>Id</th>
+                <td>Name</td>
+                <td>Address</td>
+                <td>City</td>
+                <td>State</td>
+                <td>Zip</td>
+            </tr>
+
+            <tr th:each="publisher: ${publishers}">
+                <th th:text="${publisher.id}">id</th>
+                <td th:text="${publisher.name}">Name</td>
+                <td th:text="${publisher.address}">Address</td>
+                <td th:text="${publisher.city}">City</td>
+                <td th:text="${publisher.state}">State</td>
+                <td th:text="${publisher.zip}">Zip</td>
+                <div th:each="book: ${publisher.books}">
+                    <p th:text="${book.id}"></p>
+                    <p th:text="${book.title}"></p>
+                    <p th:text="${book.publisher.name}"></p>
+                </div>
+
+            </tr>
+            <!--<div th:each="publisher : ${publishers}">
+                <div th:text="${publisher.id}"></div>
+                <div th:text="${publisher.name}"></div>
+                <ul>
+                    <div th:each="book : ${publisher.books}">
+                        <li th:text="${book.id}"></li>
+                    </div>
+                </ul>
+            </div>-->
+
+        </table>
+
+    </body>
+
+</html>
