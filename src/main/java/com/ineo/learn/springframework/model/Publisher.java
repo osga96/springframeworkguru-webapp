@@ -1,7 +1,9 @@
 package com.ineo.learn.springframework.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Publisher {
@@ -15,6 +17,9 @@ public class Publisher {
     private String state;
     private String zip;
 
+    @OneToMany
+    private Set<Book> books = new HashSet<>();
+
     public Publisher() {
 
     }
@@ -25,6 +30,18 @@ public class Publisher {
         this.city = city;
         this.state = state;
         this.zip = zip;
+    }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
     }
 
     @Override
@@ -86,5 +103,13 @@ public class Publisher {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

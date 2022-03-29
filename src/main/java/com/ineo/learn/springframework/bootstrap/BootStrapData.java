@@ -6,8 +6,14 @@ import com.ineo.learn.springframework.model.Publisher;
 import com.ineo.learn.springframework.repositories.AuthorRepository;
 import com.ineo.learn.springframework.repositories.BookRepository;
 import com.ineo.learn.springframework.repositories.PublisherRepository;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.EntityManagerFactory;
+import java.util.List;
 
 @Component
 public class BootStrapData implements CommandLineRunner {
@@ -15,11 +21,13 @@ public class BootStrapData implements CommandLineRunner {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
+    private final SessionFactory hibernateFactory;
 
-    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
+    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository, EntityManagerFactory sessionFactory) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.publisherRepository = publisherRepository;
+        this.hibernateFactory = sessionFactory.unwrap(SessionFactory.class);
     }
 
     @Override
@@ -47,8 +55,31 @@ public class BootStrapData implements CommandLineRunner {
 
         publisherRepository.save(thePublisher);
 
+        ddd.setPublisher(thePublisher);
+        thePublisher.getBooks().add(ddd);
+
+        noEJB.setPublisher(thePublisher);
+        thePublisher.getBooks().add(noEJB);
+
+        publisherRepository.save(thePublisher);
+        bookRepository.save(ddd);
+        bookRepository.save(noEJB);
+
         System.out.println("Book count: " + bookRepository.count());
         System.out.println("Publisher count: " + publisherRepository.count());
+        /*System.out.println("Publisher get books size: " + thePublisher.getBooks().size());
+
+        List<Publisher> publisherList = (List<Publisher>) publisherRepository.findAll();
+
+        for (Publisher publisher : publisherList) {
+            System.out.println("publisher.getBooks().size(): " + publisher.getBooks().size());
+        }
+
+        Session session = hibernateFactory.openSession();
+        session.beginTransaction();
+        publisherRepository.findAll().forEach(publisher -> {
+            System.out.println("books: " + publisher.getBooks());
+        });*/
 
     }
 }
